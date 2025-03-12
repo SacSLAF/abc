@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -17,8 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// all routes are protected by auth middleware
 Route::middleware(['auth'])->group(function () {
     Route::resource('user', UserController::class);
+    Route::get('/home',[HomeController::class,'index'])->name('home.index');
+    // Route::get('/dashboard',[HomeController::class,'dashboard'])->name('dashboard');
 });
 
 // try yo go user when not logged in then redirect to login page
@@ -30,14 +34,12 @@ Route::get('/user', function () {
 });
 
 // login route and when user is already logged in then redirect to user page
-Route::get('/login', function () {
-    if (auth()->check()) {
+Route::get('/login',function(){
+    if(auth()->check()){
         return redirect('/user');
     }
     return app(UserController::class)->login();
-});
-
-Route::get('/login',[UserController::class,'login'])->name('login');
+})->name('login');
 Route::post('/login',[UserController::class,'loginAction'])->name('login.action');
 Route::get('/register',[UserController::class,'register'])->name('register');
 Route::post('/register',[UserController::class,'registerAction'])->name('register.action');

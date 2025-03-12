@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <h2 class="text-center mt-5">Register</h2>
                 @if (session('success'))
                     <div class="alert alert-success">

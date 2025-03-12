@@ -12,6 +12,7 @@
             {{ session('error') }}
         </div>
     @endif
+    @include('layouts.navbar')
     <div class="user-info" style="position: absolute; top: 10px; right: 10px;">
         <p>Logged in as: {{ Auth::user()->name }}</p>
     </div>
