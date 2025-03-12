@@ -12,9 +12,9 @@
             {{ session('error') }}
         </div>
     @endif
-    @include('layouts.navbar')
+    @include('components.navbar')
     <div class="user-info" style="position: absolute; top: 10px; right: 10px;">
-        <p>Logged in as: {{ Auth::user()->name }}</p>
+        <p class="small">Logged in as: {{ Auth::user()->name }}</p>
     </div>
     <h1 class="main-header">User Index</h1>
     <div class="container mt-4">

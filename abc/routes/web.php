@@ -14,35 +14,38 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 // all routes are protected by auth middleware
 Route::middleware(['auth'])->group(function () {
-    Route::resource('user', UserController::class);
-    Route::get('/home',[HomeController::class,'index'])->name('home.index');
-    // Route::get('/dashboard',[HomeController::class,'dashboard'])->name('dashboard');
-});
-
-// try yo go user when not logged in then redirect to login page
-Route::get('/user', function () {
-    if (!auth()->check()) {
-        return redirect('/login');
-    }
-    return app(UserController::class)->index();
+    Route::get('/user', function () {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+        return app(UserController::class)->index();
+    })->name('user.index');
+    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user', [UserController::class, 'store'])->name('user.store');
+    Route::get('/user/{user}', [UserController::class, 'show'])->name('user.show');
+    Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::get('/home', [HomeController::class, 'index'])->name('home.index');
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('home.dashboard');
 });
 
 // login route and when user is already logged in then redirect to user page
-Route::get('/login',function(){
-    if(auth()->check()){
+Route::get('/login', function () {
+    if (auth()->check()) {
         return redirect('/user');
     }
     return app(UserController::class)->login();
 })->name('login');
-Route::post('/login',[UserController::class,'loginAction'])->name('login.action');
-Route::get('/register',[UserController::class,'register'])->name('register');
-Route::post('/register',[UserController::class,'registerAction'])->name('register.action');
+Route::post('/login', [UserController::class, 'loginAction'])->name('login.action');
+Route::get('/register', [UserController::class, 'register'])->name('register');
+Route::post('/register', [UserController::class, 'registerAction'])->name('register.action');
 // Route::get('/logout',[UserController::class,'logout']);
-Route::post('/logout',[UserController::class,'logoutAction'])->name('logout.action');
-
+Route::post('/logout', [UserController::class, 'logoutAction'])->name('logout.action');
