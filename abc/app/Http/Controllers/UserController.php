@@ -151,18 +151,41 @@ class UserController extends Controller
         return redirect()->route('login.action')->with('success', 'Logout successful');
     }
 
-    // public function playerDashboard()
-    // {
-    //     return view('player.dashboard');
-    // }
+    public function updateProfile(Request $request)
+    {
+        try {
 
-    // public function managerDashboard()
-    // {
-    //     return view('manager.dashboard');
-    // }
+            $user = User::findOrFail(auth()->id());
 
-    // public function coachDashboard()
-    // {
-    //     return view('coach.dashboard');
-    // }
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . auth()->id(),
+                'address' => 'nullable|string|max:255',
+                'city' => 'nullable|string|max:100',
+                'state' => 'nullable|string|max:100',
+                'zip' => 'nullable|string|max:20',
+                'about' => 'nullable|string',
+                'achievement' => 'nullable|string',
+                'password' => 'nullable|confirmed',
+            ]);
+
+            $user = User::findOrFail(auth()->id());
+
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'address' => $request->address,
+                'city' => $request->city,
+                'state' => $request->state,
+                'zip' => $request->zip,
+                'about' => $request->about,
+                'achievement' => $request->achievement,
+                'password' => $request->password ? bcrypt($request->password) : $user->password,
+            ]);
+
+            return redirect()->back()->with('success', 'Profile updated successfully!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Something went wrong: ' . $th->getMessage());
+        }
+    }
 }

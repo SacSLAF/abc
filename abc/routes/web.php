@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home.index');
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('home.dashboard');
     Route::get('/profile/{id?}', [HomeController::class, 'profile'])->name('home.profile');
+    Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
 });
 
 // login route and when user is already logged in then redirect to user page

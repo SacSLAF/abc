@@ -1,10 +1,22 @@
 @extends('layouts.dashboard', ['title' => 'Dashboard'])
 
 @section('content')
+
 <div class="content-body">
     <div class="container-fluid">
+        @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
+
+        @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
         <div class="page-titles">
-            <ol class="breadcrumb">   
+            <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Profile</a></li>
             </ol>
         </div>
@@ -23,13 +35,13 @@
                             <div class="profile-details">
                                 <div class="profile-name px-3 pt-2">
                                     <h4 class="text-primary mb-0">{{ $user->name }}</h4>
-                                    <p>UX / UI Designer</p>
+                                    <p>{{$user->role}}</p>
                                 </div>
                                 <div class="profile-email px-2 pt-2">
                                     <h4 class="text-muted mb-0">{{ $user->name }}</h4>
                                     <!-- <p>Email</p> -->
                                 </div>
-                                <div class="dropdown ms-auto">
+                                <!-- <div class="dropdown ms-auto">
                                     <a href="#" class="btn btn-primary light sharp" data-bs-toggle="dropdown" aria-expanded="true"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewbox="0 0 24 24" version="1.1">
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                 <rect x="0" y="0" width="24" height="24"></rect>
@@ -44,7 +56,7 @@
                                         <li class="dropdown-item"><i class="fa fa-plus text-primary me-2"></i> Add to group</li>
                                         <li class="dropdown-item"><i class="fa fa-ban text-primary me-2"></i> Block</li>
                                     </ul>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -70,11 +82,16 @@
                                         <div class="profile-about-me">
                                             <div class="pt-4 border-bottom-1 pb-3">
                                                 <h4 class="text-primary">About Me</h4>
-                                                <p class="mb-2">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence was created for the bliss of souls like mine.I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.</p>
-                                                <p>A collection of textile samples lay spread out on the table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame.</p>
+                                                <p class="mb-2">{{ $user->about }}</p>
                                             </div>
                                         </div>
-                                        <div class="profile-skills mb-5">
+                                        <div class="profile-about-me">
+                                            <div class="pt-4 border-bottom-1 pb-3">
+                                                <h4 class="text-primary">Achievements</h4>
+                                                <p class="mb-2">{{ $user->achievement }}</p>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="profile-skills mb-5">
                                             <h4 class="text-primary mb-2">Skills</h4>
                                             <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1">Admin</a>
                                             <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1">Dashboard</a>
@@ -82,13 +99,13 @@
                                             <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1">Bootstrap</a>
                                             <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1">Responsive</a>
                                             <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1">Crypto</a>
-                                        </div>
-                                        <div class="profile-lang  mb-5">
+                                        </div> -->
+                                        <!-- <div class="profile-lang  mb-5">
                                             <h4 class="text-primary mb-2">Language</h4>
                                             <a href="javascript:void()" class="text-muted pe-3 f-s-16"><i class="flag-icon flag-icon-us"></i> English</a>
                                             <a href="javascript:void()" class="text-muted pe-3 f-s-16"><i class="flag-icon flag-icon-fr"></i> French</a>
                                             <a href="javascript:void()" class="text-muted pe-3 f-s-16"><i class="flag-icon flag-icon-bd"></i> Bangla</a>
-                                        </div>
+                                        </div> -->
                                         <div class="profile-personal-info">
                                             <h4 class="text-primary mb-4">Personal Information</h4>
                                             <div class="row mb-4">
@@ -98,7 +115,7 @@
                                                     </h5>
                                                 </div>
                                                 <div class="col-lg-9 col-md-8 col-sm-6 mb-1">
-                                                    <span>Mitchell C.Shay</span>
+                                                    <span>{{ $user->name }}</span>
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -108,17 +125,7 @@
                                                     </h5>
                                                 </div>
                                                 <div class="col-lg-9 col-md-8 col-sm-6">
-                                                    <span>example@examplel.com</span>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                                    <h5 class="f-w-500">Availability
-                                                        <span class="d-none d-sm-block pull-right">:</span>
-                                                    </h5>
-                                                </div>
-                                                <div class="col-lg-9 col-md-8 col-sm-6">
-                                                    <span>Full Time (Free Lancer)</span>
+                                                    <span>{{ $user->email }}</span>
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -138,7 +145,7 @@
                                                     </h5>
                                                 </div>
                                                 <div class="col-lg-9 col-md-8 col-sm-6">
-                                                    <span>Rosemont Avenue Melbourne, Florida</span>
+                                                    <span>{{ $user->address }}</span>
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -157,73 +164,55 @@
                                         <div class="pt-3">
                                             <div class="settings-form">
                                                 <h4 class="text-primary">Account Setting</h4>
-                                                <form>
+                                                <form action="{{ route('user.profile.update') }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+
                                                     <div class="row">
                                                         <div class="form-group col-md-6">
-                                                            <label>Email</label>
-                                                            <input type="email" placeholder="Email" class="form-control">
+                                                            <label>Name</label>
+                                                            <input type="text" name="name" class="form-control" value="{{ auth()->user()->name }}">
                                                         </div>
+
                                                         <div class="form-group col-md-6">
-                                                            <label>Password</label>
-                                                            <input type="password" placeholder="Password" class="form-control">
+                                                            <label>Email</label>
+                                                            <input type="email" name="email" class="form-control" value="{{ auth()->user()->email }}" readonly>
                                                         </div>
                                                     </div>
+
                                                     <div class="form-group">
                                                         <label>Address</label>
-                                                        <input type="text" placeholder="1234 Main St" class="form-control">
+                                                        <input type="text" name="address" placeholder="1234 Main St" class="form-control" value="{{ auth()->user()->address }}">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Address 2</label>
-                                                        <input type="text" placeholder="Apartment, studio, or floor" class="form-control">
-                                                    </div>
+
                                                     <div class="row">
                                                         <div class="form-group col-md-6">
                                                             <label>City</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="text" name="city" class="form-control" value="{{ auth()->user()->city }}">
                                                         </div>
-                                                        <div class="form-group col-md-4">
+                                                        <div class="form-group col-md-3">
                                                             <label>State</label>
-                                                            <select class="form-control default-select" id="inputState">
-                                                                <option selected="">Choose...</option>
-                                                                <option>Option 1</option>
-                                                                <option>Option 2</option>
-                                                                <option>Option 3</option>
-                                                            </select>
+                                                            <input type="text" name="state" class="form-control" value="{{ auth()->user()->state }}">
                                                         </div>
-                                                        <div class="form-group col-md-2">
+                                                        <div class="form-group col-md-3">
                                                             <label>Zip</label>
-                                                            <input type="text" class="form-control">
+                                                            <input type="text" name="zip" class="form-control" value="{{ auth()->user()->zip }}">
                                                         </div>
                                                     </div>
+
                                                     <div class="form-group">
-                                                        <div class="form-check custom-checkbox">
-                                                            <input type="checkbox" class="form-check-input" id="gridCheck">
-                                                            <label class="form-check-label" for="gridCheck"> Check me out</label>
-                                                        </div>
+                                                        <label>Achievements</label>
+                                                        <textarea name="achievement" class="form-control">{{ auth()->user()->achievement }}</textarea>
                                                     </div>
-                                                    <button class="btn btn-primary" type="submit">Update</button>
+
+                                                    <div class="form-group">
+                                                        <label>About</label>
+                                                        <textarea name="about" class="form-control">{{ auth()->user()->about }}</textarea>
+                                                    </div>
+
+                                                    <button class="btn btn-primary" type="submit">Update Profile</button>
                                                 </form>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Modal -->
-                            <div class="modal fade" id="replyModal">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Post Reply</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form>
-                                                <textarea class="form-control" rows="4">Message</textarea>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Reply</button>
                                         </div>
                                     </div>
                                 </div>
