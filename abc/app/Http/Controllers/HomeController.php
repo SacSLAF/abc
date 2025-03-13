@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Home;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -68,5 +69,21 @@ class HomeController extends Controller
     {
         $userCount = User::count();
         return view('home.dashboard', compact('userCount'));
+    }
+
+    // public function profile()
+    // {
+    //     $user = Auth::user(); // Get the authenticated user
+    //     return view('home.profile', compact('user'));
+    // }
+    public function profile($id = null)
+    {
+        if ($id === null) {
+            $user = Auth::user();
+        } else {
+            $user = User::findOrFail($id);
+        }
+
+        return view('home.profile', compact('user'));
     }
 }
