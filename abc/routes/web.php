@@ -49,3 +49,10 @@ Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::post('/register', [UserController::class, 'registerAction'])->name('register.action');
 // Route::get('/logout',[UserController::class,'logout']);
 Route::post('/logout', [UserController::class, 'logoutAction'])->name('logout.action');
+
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/player/dashboard', [UserController::class, 'playerDashboard'])->name('player.dashboard');
+//     Route::get('/manager/dashboard', [UserController::class, 'managerDashboard'])->name('manager.dashboard');
+//     Route::get('/coach/dashboard', [UserController::class, 'coachDashboard'])->name('coach.dashboard');
+// });

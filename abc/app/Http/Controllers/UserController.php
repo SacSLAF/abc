@@ -99,6 +99,15 @@ class UserController extends Controller
             } else {
                 if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                     $request->session()->regenerate();
+
+                    // $role = Auth::user()->role;
+                    // Redirect based on role
+                    // return match ($role) {
+                    //     'player' => redirect()->route('player.dashboard')->with('success', 'Login successful'),
+                    //     'manager' => redirect()->route('manager.dashboard')->with('success', 'Login successful'),
+                    //     'coach' => redirect()->route('coach.dashboard')->with('success', 'Login successful'),
+                    //     default => redirect()->route('home')->with('success', 'Login successful'),
+                    // };
                     return redirect()->intended('/user')->with('success', 'Login successful');
                 }
                 return back()->with('error', "Wrong username or password!");
@@ -120,12 +129,14 @@ class UserController extends Controller
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|confirmed',
+                'role' => 'required|in:player,manager,coach',
             ]);
 
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
+                'role' => $request->role,
             ]);
 
             return redirect()->route('user.index')->with('success', 'User registered successfully.');
@@ -139,4 +150,19 @@ class UserController extends Controller
         Auth::logout();
         return redirect()->route('login.action')->with('success', 'Logout successful');
     }
+
+    // public function playerDashboard()
+    // {
+    //     return view('player.dashboard');
+    // }
+
+    // public function managerDashboard()
+    // {
+    //     return view('manager.dashboard');
+    // }
+
+    // public function coachDashboard()
+    // {
+    //     return view('coach.dashboard');
+    // }
 }
